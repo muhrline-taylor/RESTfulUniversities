@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,6 +48,7 @@ public class MainController {
 	public List<Course> getAllCourses(){
 		return mainService.getAllCourses();
 	}
+	
 	
 	
 	
@@ -104,6 +106,30 @@ public class MainController {
 			System.out.println(e);
 		}
 	}
+	
+	@PutMapping("/courses/addStudent")
+	public void addStudentToCourse(@RequestBody Map<String, Object> payload) {
+		System.out.println("into addStudentToCourse");
+		
+		try {
+			mainService.addStudentToCourse(Long.parseLong(payload.get("student_id").toString()), Long.parseLong(payload.get("course_id").toString()));
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		
+	}
+	
+//	@PostMapping("/courseStudents/new")
+//	public void createCourseStudent(@RequestBody Map<String, Object> payload) {
+//		try {
+//			mainService.createCourseStudent(Long.parseLong(payload.get("student_id").toString()), Long.parseLong(payload.get("course_id").toString()));
+//		} catch(Exception e) {
+//			System.out.println(e);
+//		}
+//	}
+	
+	
 	
 	
 	

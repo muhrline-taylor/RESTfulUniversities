@@ -1,6 +1,8 @@
 package com.taylormuhrline.mappingpractice2.server.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -37,8 +40,13 @@ public class Student {
 	private University university;
 	
 //	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+//	@JoinColumn(name="students")
 //	@JsonBackReference
 //	private CourseStudent courseStudent;
+	
+	@ManyToMany(mappedBy="students")
+	@JsonBackReference
+	private List<Course> courses = new ArrayList<Course>();
 	
 	@Column(updatable=false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -120,6 +128,16 @@ public class Student {
     protected void onUpdate(){
         this.updatedAt = new Date();
     }
+
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
+
+	
 	
 	
 	

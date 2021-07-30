@@ -139,9 +139,30 @@ public class MainService {
 			
 		} catch(Exception e) {
 			System.out.println(e);
+			return ResponseEntity.unprocessableEntity().build();
 		}
-		
-		return ResponseEntity.noContent().build();
 	}
+	
+	// ADD STUDENT
+	public ResponseEntity<Course> addStudentToCourse(Long student_id, Long course_id){
+		System.out.println("into mainService.addSTudentToCourse");
+		
+		try {
+			Student student = studentRepository.findById(student_id).orElse(null);
+			Course course = courseRepository.findById(course_id).orElse(null);
+			
+			course.getStudents().add(student);
+			Course savedCourse = courseRepository.save(course);
+			
+			return ResponseEntity.ok(savedCourse);
+		}catch(Exception e) {
+			System.out.println(e);
+			return ResponseEntity.unprocessableEntity().build();
+		}
+	}
+	
+	
+	
+	
 
 }

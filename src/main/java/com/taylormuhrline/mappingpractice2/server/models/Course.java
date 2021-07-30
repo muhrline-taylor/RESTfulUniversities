@@ -1,6 +1,8 @@
 package com.taylormuhrline.mappingpractice2.server.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -18,6 +22,7 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="courses")
@@ -39,8 +44,17 @@ public class Course {
 	@JsonBackReference
 	private University university;
 	
+	@ManyToMany
+	@JsonManagedReference
+	@JoinTable(
+			name = "student_course", 
+			joinColumns = @JoinColumn(name = "student_id"), 
+		    inverseJoinColumns = @JoinColumn(name = "course_id")
+			)
+	private List<Student> students = new ArrayList<Student>();
+	
 //	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-//	@JoinColumn(name="course_id")
+//	@JoinColumn(name="courses")
 //	@JsonBackReference
 //	private CourseStudent courseStudent;
 	
@@ -115,6 +129,17 @@ public class Course {
     protected void onUpdate(){
         this.updatedAt = new Date();
     }
+
+	public List<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(List<Student> students) {
+		this.students = students;
+	}
+
+    
+	
 	
     
     
