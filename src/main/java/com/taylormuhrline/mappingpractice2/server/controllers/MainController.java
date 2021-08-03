@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -90,17 +91,15 @@ public class MainController {
 		} catch(Exception e) {
 			System.out.println(e);
 		}
-		//mainService.createUniversity(payload.get("name").toString());
-		
 	}
 	
 	@PostMapping("/courses/new")
 	public void createCourse(@RequestBody Map<String, Object> payload) {
 		try {
 			mainService.createCourse(
-					payload.get("name").toString(),
-					Long.parseLong(payload.get("instructor_id").toString()),
-					Long.parseLong(payload.get("university_id").toString())
+						payload.get("name").toString(),
+						Long.parseLong(payload.get("instructor_id").toString()),
+						Long.parseLong(payload.get("university_id").toString())
 					);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -109,16 +108,67 @@ public class MainController {
 	
 	@PutMapping("/courses/addStudent")
 	public void addStudentToCourse(@RequestBody Map<String, Object> payload) {
-		System.out.println("into addStudentToCourse");
-		
 		try {
-			mainService.addStudentToCourse(Long.parseLong(payload.get("student_id").toString()), Long.parseLong(payload.get("course_id").toString()));
+			mainService.addStudentToCourse(
+						Long.parseLong(payload.get("student_id").toString()), 
+						Long.parseLong(payload.get("course_id").toString())
+					);
 		} catch(Exception e) {
 			System.out.println(e);
 		}
-		
-		
 	}
+	
+	
+	
+	
+	// DELETE ------------------------------- //
+	
+	@DeleteMapping("/courses/delete")
+	public void deleteCourse(@RequestBody Map<String, Object> payload) {
+		try {
+			mainService.deleteCourse(Long.parseLong(payload.get("course_id").toString()));
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	@DeleteMapping("/instructors/delete")
+	public void deleteInstructor(@RequestBody Map<String, Object> payload) {
+		try {
+			mainService.deleteInstructor(Long.parseLong(payload.get("instructor_id").toString()));
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	@DeleteMapping("/students/delete")
+	public void deleteStudent(@RequestBody Map<String, Object> payload) {
+		try {
+			mainService.deleteStudent(Long.parseLong(payload.get("student_id").toString()));
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	@DeleteMapping("/universities/delete")
+	public void deleteUniversity(@RequestBody Map<String, Object> payload) {
+		try {
+			mainService.deleteUniversity(Long.parseLong(payload.get("university_id").toString()));
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 //	@PostMapping("/courseStudents/new")
 //	public void createCourseStudent(@RequestBody Map<String, Object> payload) {

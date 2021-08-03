@@ -39,7 +39,7 @@ public class Instructor {
 	@JsonBackReference
 	private University university;
 	
-	@OneToMany(mappedBy="instructor", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="instructor", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JsonManagedReference
 	private List<Course> courses;
 	

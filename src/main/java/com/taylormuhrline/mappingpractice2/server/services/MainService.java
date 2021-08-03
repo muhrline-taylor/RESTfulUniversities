@@ -53,7 +53,23 @@ public class MainService {
 		}
 	}
 	
-	
+	// DELETE UNIVERSITY
+	public void deleteUniversity(Long university_id) {
+		try {
+			
+			University university = universityRepository.getById(university_id);
+			
+			university.setCourses(null);
+			university.setInstructors(null);
+			university.setStudents(null);
+			
+			universityRepository.delete(university);
+			
+		}catch(Exception e) {
+			System.out.println(e);
+			System.out.println("University must not have associated students, instructors, or courses before it can be deleted");
+		}
+	}
 	
 	
 	
@@ -85,6 +101,23 @@ public class MainService {
 		}
 	}
 	
+	// DELETE STUDENT
+	public void deleteStudent(Long student_id) {
+		
+		try {
+			
+			Student student = studentRepository.getById(student_id);
+			student.setCourses(null);
+			student.setUniversity(null);
+			
+			studentRepository.delete(student);
+			
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+	}
+	
 	
 	
 	
@@ -112,7 +145,24 @@ public class MainService {
 			System.out.println(e);
 			return ResponseEntity.unprocessableEntity().build();
 		}
-		
+	}
+	
+	// DELETE INSTRUCTOR
+	public void deleteInstructor(Long instructor_id) {
+		try {
+
+			Instructor instructor = instructorRepository.getById(instructor_id);
+			
+			instructor.setUniversity(null);
+			instructor.setCourses(null);
+			
+			instructorRepository.delete(instructor);
+			
+			
+		} catch(Exception e) {
+			System.out.println(e);
+			System.out.println("Instructor cannot be deleted while mapped to a course. Please remove instructor from course.");
+		}
 	}
 	
 	
@@ -126,9 +176,6 @@ public class MainService {
 	
 	// CREATE
 	public ResponseEntity<Course> createCourse(String course_name, Long instructor_id, Long university_id){
-		
-		System.out.println("into mainService.createCourse");
-		
 		
 		try {
 			Instructor instructor = instructorRepository.getById(instructor_id);
@@ -145,11 +192,10 @@ public class MainService {
 	
 	// ADD STUDENT
 	public ResponseEntity<Course> addStudentToCourse(Long student_id, Long course_id){
-		System.out.println("into mainService.addSTudentToCourse");
 		
 		try {
-			Student student = studentRepository.findById(student_id).orElse(null);
-			Course course = courseRepository.findById(course_id).orElse(null);
+			Student student = studentRepository.getById(student_id);
+			Course course = courseRepository.getById(course_id);
 			
 			course.getStudents().add(student);
 			Course savedCourse = courseRepository.save(course);
@@ -159,6 +205,24 @@ public class MainService {
 			System.out.println(e);
 			return ResponseEntity.unprocessableEntity().build();
 		}
+	}
+	
+	// DELETE COURSE
+	public void deleteCourse(Long course_id) {
+		try {
+			Course course = courseRepository.getById(course_id);
+			System.out.println(course.getUniversity());
+			
+			course.setUniversity(null);
+			course.setInstructor(null);
+			course.setStudents(null);
+
+			courseRepository.delete(course);
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		
 	}
 	
 	

@@ -3,6 +3,7 @@ package com.taylormuhrline.mappingpractice2.server.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,15 +37,15 @@ public class University {
 	@Column(name="name", nullable=false)
 	private String name;
 	
-	@OneToMany(mappedBy="university", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="university", fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JsonManagedReference
 	private List<Student> students;
 	
-	@OneToMany(mappedBy="university", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="university", fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JsonManagedReference
 	private List<Instructor> instructors;
 	
-	@OneToMany(mappedBy="university", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="university", fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JsonManagedReference
 	private List<Course> courses;
 	
