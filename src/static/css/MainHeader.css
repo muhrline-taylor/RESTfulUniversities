@@ -1,0 +1,47 @@
+.mainHeader {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mainHeader__top {
+    height: 50%;
+    display: flex;
+    align-items: center;
+    margin-left: 2%;
+}
+
+.mainHeader__top > h1 {
+    font-size: 2vw;
+    color: whitesmoke;
+}
+
+.mainHeader__middle {
+    height: 50%;
+    display: flex;
+    padding-left: 1%;
+    align-items: center;
+}
+
+.mainHeader__middleButton {
+    height: 85%;
+    background-color: white;
+    margin-right: 1%;
+    width: 10vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-decoration: none;
+    border-radius: 6px;
+    background-color: rgb(141, 140, 140);
+    color: black;
+    font-size: 1.2vw;
+    font-weight: 500;
+}
+
+.mainHeader__middleButton:hover {
+    background-color: rgb(121, 120, 120) !important;
+    transition: 0.2s;
+}
+
