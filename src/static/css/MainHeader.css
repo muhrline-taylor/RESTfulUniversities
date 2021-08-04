@@ -40,6 +40,10 @@
     font-weight: 500;
 }
 
+.mainHeader__middleButton.__selected {
+    background-color: rgb(189, 189, 189) !important;
+}
+
 .mainHeader__middleButton:hover {
     background-color: rgb(121, 120, 120) !important;
     transition: 0.2s;

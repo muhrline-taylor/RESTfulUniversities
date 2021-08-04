@@ -19,6 +19,10 @@
     font-size: 0.9vw;
 }
 
+.subHeader__button.__selected {
+    background-color: black;
+}
+
 .subHeader__button:hover {
     background-color: rgb(121, 120, 120) !important;
     transition: 0.2s;

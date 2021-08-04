@@ -1,0 +1,12 @@
+.viewAll {
+    height: 100%;
+    width: 100%;
+}
+
+.viewAll__table {
+    width: 100%;
+}
+
+.viewAll__table > tr > td {
+    text-align: center;
+}

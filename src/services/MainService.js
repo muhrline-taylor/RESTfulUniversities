@@ -35,3 +35,6 @@ class MainService {
 
 
 }
+
+
+export default new MainService();

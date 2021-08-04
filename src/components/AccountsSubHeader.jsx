@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "../static/css/SubHeader.css";
 
-function StudentSubHeader() {
+function AccountsSubHeader() {
     const [tabSelected, setTabSelected] = useState("")
 
     useEffect(() => {
@@ -15,23 +15,21 @@ function StudentSubHeader() {
         setTabSelected(newTab);
     },[tabSelected])
 
-
-
     return (
         <div className="subHeader">
 
             <a 
-                href="/students/"
-                className={`subHeader__button ${tabSelected === "/" ? "__selected":""}`}
+                href="/accounts/login"
+                className={`subHeader__button ${tabSelected === "/login" ? "__selected": ""}`}
             >
-                View All
+                Log In
             </a>
 
             <a 
-                href="/students/new"
-                className={`subHeader__button ${tabSelected === "/new" ? "__selected":""}`}
+                href="/accounts/register"
+                className={`subHeader__button ${tabSelected === "/register" ? "__selected": ""}`}
             >
-                Create
+                Register
             </a>
 
             
@@ -40,4 +38,4 @@ function StudentSubHeader() {
     )
 }
 
-export default StudentSubHeader
+export default AccountsSubHeader
