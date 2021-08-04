@@ -10,10 +10,12 @@ import com.taylormuhrline.mappingpractice2.server.models.Course;
 import com.taylormuhrline.mappingpractice2.server.models.Instructor;
 import com.taylormuhrline.mappingpractice2.server.models.Student;
 import com.taylormuhrline.mappingpractice2.server.models.University;
+import com.taylormuhrline.mappingpractice2.server.models.User;
 import com.taylormuhrline.mappingpractice2.server.repositories.CourseRepository;
 import com.taylormuhrline.mappingpractice2.server.repositories.InstructorRepository;
 import com.taylormuhrline.mappingpractice2.server.repositories.StudentRepository;
 import com.taylormuhrline.mappingpractice2.server.repositories.UniversityRepository;
+import com.taylormuhrline.mappingpractice2.server.repositories.UserRepository;
 
 @Service
 public class MainService {
@@ -29,6 +31,9 @@ public class MainService {
 	
 	@Autowired
 	private CourseRepository courseRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	
 	
@@ -190,22 +195,7 @@ public class MainService {
 		}
 	}
 	
-	// ADD STUDENT
-	public ResponseEntity<Course> addStudentToCourse(Long student_id, Long course_id){
-		
-		try {
-			Student student = studentRepository.getById(student_id);
-			Course course = courseRepository.getById(course_id);
-			
-			course.getStudents().add(student);
-			Course savedCourse = courseRepository.save(course);
-			
-			return ResponseEntity.ok(savedCourse);
-		}catch(Exception e) {
-			System.out.println(e);
-			return ResponseEntity.unprocessableEntity().build();
-		}
-	}
+
 	
 	// DELETE COURSE
 	public void deleteCourse(Long course_id) {
@@ -223,6 +213,69 @@ public class MainService {
 		}
 		
 		
+	}
+	
+	
+	// ================================== USER SERVICES ================================================ //
+	
+	public List<User> getAllUsers(){
+		return userRepository.findAll();
+	}
+	
+	// ------ U N F I N I S H E D -----email validation issue----- //
+	public ResponseEntity<User> createUser(
+				String username,
+				String password,
+				String email
+			) {
+		
+		System.out.println("into mainService.createUser");
+		
+		try {
+			User newUser = new User(
+					username,
+					password,
+					email
+				);
+			
+			User savedUser = userRepository.save(newUser);
+			
+			return ResponseEntity.ok(savedUser);
+			
+		}catch(Exception e) {
+			System.out.println(e);
+			return ResponseEntity.unprocessableEntity().build();
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// ================================== MISC SERVICES ================================================ //
+	
+	// ADD STUDENT TO COURSE
+	public ResponseEntity<Course> addStudentToCourse(Long student_id, Long course_id){
+		
+		try {
+			Student student = studentRepository.getById(student_id);
+			Course course = courseRepository.getById(course_id);
+			
+			course.getStudents().add(student);
+			Course savedCourse = courseRepository.save(course);
+			
+			return ResponseEntity.ok(savedCourse);
+		}catch(Exception e) {
+			System.out.println(e);
+			return ResponseEntity.unprocessableEntity().build();
+		}
 	}
 	
 	

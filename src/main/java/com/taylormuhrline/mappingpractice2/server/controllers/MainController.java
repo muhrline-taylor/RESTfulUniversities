@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +18,10 @@ import com.taylormuhrline.mappingpractice2.server.models.Course;
 import com.taylormuhrline.mappingpractice2.server.models.Instructor;
 import com.taylormuhrline.mappingpractice2.server.models.Student;
 import com.taylormuhrline.mappingpractice2.server.models.University;
+import com.taylormuhrline.mappingpractice2.server.models.User;
 import com.taylormuhrline.mappingpractice2.server.services.MainService;
 
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1")
 public class MainController {
@@ -106,17 +110,6 @@ public class MainController {
 		}
 	}
 	
-	@PutMapping("/courses/addStudent")
-	public void addStudentToCourse(@RequestBody Map<String, Object> payload) {
-		try {
-			mainService.addStudentToCourse(
-						Long.parseLong(payload.get("student_id").toString()), 
-						Long.parseLong(payload.get("course_id").toString())
-					);
-		} catch(Exception e) {
-			System.out.println(e);
-		}
-	}
 	
 	
 	
@@ -159,6 +152,63 @@ public class MainController {
 		}
 	}
 	
+	
+	
+	
+	
+
+	// OTHER ----------------------------------------- //
+	
+	@PutMapping("/courses/addStudent")
+	public void addStudentToCourse(@RequestBody Map<String, Object> payload) {
+		try {
+			mainService.addStudentToCourse(
+						Long.parseLong(payload.get("student_id").toString()), 
+						Long.parseLong(payload.get("course_id").toString())
+					);
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	
+	
+	
+	// ================================== USER ROUTES ========================================== //
+	
+	@GetMapping("/users")
+	public List<User> getAllUsers(){
+		return mainService.getAllUsers();
+	}
+	
+	@PostMapping("/users")
+	public ResponseEntity<User> createUser(@RequestBody Map<String, Object> payload){
+		
+		if(payload.get("username") == null || payload.get("email") == null || payload.get("password") == null || payload.get("confirm_pw") == null ) {
+			return ResponseEntity.unprocessableEntity().build();
+		} else {
+			System.out.println("into createUser");
+			if(payload.get("password").equals(payload.get("confirm_pw"))) {
+				try {
+					ResponseEntity<User> newUser = mainService.createUser(
+								payload.get("username").toString(),
+								payload.get("password").toString(),
+								payload.get("email").toString()
+							);
+					return newUser;
+				} catch(Exception e) {
+					System.out.println(e);
+					return ResponseEntity.unprocessableEntity().build();
+				}
+			} else {
+				return ResponseEntity.unprocessableEntity().build();
+			}
+			
+			
+		}
+		
+		
+	}
 	
 	
 	
